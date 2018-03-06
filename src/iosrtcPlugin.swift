@@ -48,7 +48,19 @@ class iosrtcPlugin : CDVPlugin {
 
 
 	override func onReset() {
-		NSLog("iosrtcPlugin#onReset() | doing nothing")
+        NSLog("iosrtcPlugin#onReset() | initialize")
+        
+        pluginMediaStreams = [:]
+        pluginMediaStreamTracks = [:]
+        for (_, pluginMediaStreamRenderer) in self.pluginMediaStreamRenderers {
+            pluginMediaStreamRenderer.close()
+        }
+        pluginMediaStreamRenderers = [:]
+        queue = DispatchQueue(label: "cordova-plugin-iosrtc", attributes: [])
+        for (_, pluginRTCPeerConnection) in self.pluginRTCPeerConnections {
+            pluginRTCPeerConnection.close()
+        }
+        pluginRTCPeerConnections = [:]
 	}
 
 
